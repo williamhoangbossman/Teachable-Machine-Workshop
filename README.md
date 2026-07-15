@@ -1,18 +1,57 @@
-# Part 1 — Confidence Monitor: Step-by-Step
+<div align="center">
 
-This walks through building `script.js` (and the two HTML pieces it depends on) from scratch,
-one small piece at a time. Each step says what to write and why it matters. The full solution is
-at the bottom if you want to check your work or skip ahead — but try each step yourself first.
+<h1>✊ Part 1 - Confidence Monitor ✋</h1>
+<p><strong><span style="color:#a7e3c9;">Rock</span> · <span style="color:#f1b4c4;">Paper</span> · <span style="color:#c9b9ee;">Scissors</span></strong> - a step-by-step build guide ✌️</p>
 
-## Before you start
+![HTML5](https://img.shields.io/badge/HTML5-16161D?style=for-the-badge&logo=html5&logoColor=A7E3C9)
+![CSS3](https://img.shields.io/badge/CSS3-16161D?style=for-the-badge&logo=css3&logoColor=C9B9EE)
+![JavaScript](https://img.shields.io/badge/JavaScript-16161D?style=for-the-badge&logo=javascript&logoColor=F1B4C4)
+![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-16161D?style=for-the-badge&logo=tensorflow&logoColor=A7E3C9)
 
-You should have already trained a model in Teachable Machine with four classes — `Rock`, `Paper`,
-`Scissors`, `Nothing` — and exported it as **Tensorflow.js → Download my model**. Unzip the three
-files (`model.json`, `metadata.json`, `weights.bin`) into a `model/` folder next to `index.html`.
+</div>
 
----
+<br>
 
-## Step 1 — Load the Teachable Machine library
+This walks through building `script.js` (and the two HTML pieces it depends on) from scratch, one
+small piece at a time. Each step says **what to write** and **why it matters**. Click a step to
+expand it. The full solution is at the bottom if you want to check your work or skip ahead - but
+try each step yourself first.
+
+<br>
+
+<div style="background:#1f1f29;border-left:4px solid #c9b9ee;padding:14px 18px;border-radius:8px;">
+<strong style="color:#c9b9ee;">📋 Before you start</strong><br>
+<span style="color:#edebf6;">
+You should have already trained a model in Teachable Machine with four classes -
+<code>Rock</code>, <code>Paper</code>, <code>Scissors</code>, <code>Nothing</code> - and exported
+it as <strong>Tensorflow.js → Download my model</strong>. Unzip the three files
+(<code>model.json</code>, <code>metadata.json</code>, <code>weights.bin</code>) into a
+<code>model/</code> folder next to <code>index.html</code>.
+</span>
+</div>
+
+<br>
+
+## 🗺️ Steps
+
+- [Step 1 - Load the Teachable Machine library](#step-1)
+- [Step 2 - Build the HTML skeleton](#step-2)
+- [Step 3 - Grab references to those elements](#step-3)
+- [Step 4 - Point at your model files](#step-4)
+- [Step 5 - Start the webcam](#step-5)
+- [Step 6 - Load the model](#step-6)
+- [Step 7 - Turn predictions into bar rows](#step-7)
+- [Step 8 - Classify the webcam feed, continuously](#step-8)
+- [Step 9 - Tie it together and start everything](#step-9)
+- [✅ Definition of done](#definition-of-done)
+- [📦 Full solution](#full-solution)
+
+<br>
+
+<details id="step-1">
+<summary><strong style="color:#a7e3c9;font-size:1.05em;">🟢 Step 1 - Load the Teachable Machine library</strong></summary>
+
+<br>
 
 In `index.html`, inside `<head>`, add:
 
@@ -21,14 +60,23 @@ In `index.html`, inside `<head>`, add:
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.5/dist/teachablemachine-image.min.js"></script>
 ```
 
-**What this does:** these two `<script>` tags download Google's machine-learning libraries from a
-CDN and make them available as global objects — `tf` and `tmImage` — that any script on the page
-can use afterward. This has to come *before* your own `script.js` tag, since your code depends on
-`tmImage` existing already.
+<div style="background:#1f1f29;border-left:4px solid #a7e3c9;padding:12px 16px;border-radius:6px;margin-top:8px;">
+<strong style="color:#a7e3c9;">💡 What this does:</strong>
+<span style="color:#edebf6;">these two <code>&lt;script&gt;</code> tags download Google's
+machine-learning libraries from a CDN and make them available as global objects -
+<code>tf</code> and <code>tmImage</code> - that any script on the page can use afterward. This has
+to come <em>before</em> your own <code>script.js</code> tag, since your code depends on
+<code>tmImage</code> existing already.</span>
+</div>
 
----
+</details>
 
-## Step 2 — Build the HTML skeleton
+<br>
+
+<details id="step-2">
+<summary><strong style="color:#a7e3c9;font-size:1.05em;">🟢 Step 2 - Build the HTML skeleton</strong></summary>
+
+<br>
 
 Still in `index.html`, inside `<body>`, add:
 
@@ -39,16 +87,25 @@ Still in `index.html`, inside `<body>`, add:
 <script src="script.js"></script>
 ```
 
-**What this does:** `<video id="webcam">` is where the live camera feed will be displayed — you'll
-attach the actual camera stream to it in JavaScript. `autoplay muted playsinline` are required for
-browsers to let a video start without the user clicking play first. `#confidence-bars` starts
-empty — your JavaScript will build a row inside it for every class your model knows about.
-`#status` is just a small text line so you (and the browser) can tell what's currently happening —
-loading, waiting on camera permission, or live.
+<div style="background:#1f1f29;border-left:4px solid #a7e3c9;padding:12px 16px;border-radius:6px;margin-top:8px;">
+<strong style="color:#a7e3c9;">💡 What this does:</strong>
+<span style="color:#edebf6;"><code>&lt;video id="webcam"&gt;</code> is where the live camera feed
+will be displayed - you'll attach the actual camera stream to it in JavaScript.
+<code>autoplay muted playsinline</code> are required for browsers to let a video start without the
+user clicking play first. <code>#confidence-bars</code> starts empty - your JavaScript will build
+a row inside it for every class your model knows about. <code>#status</code> is just a small text
+line so you (and the browser) can tell what's currently happening - loading, waiting on camera
+permission, or live.</span>
+</div>
 
----
+</details>
 
-## Step 3 — Grab references to those elements in `script.js`
+<br>
+
+<details id="step-3">
+<summary><strong style="color:#c9b9ee;font-size:1.05em;">🟣 Step 3 - Grab references to those elements in <code>script.js</code></strong></summary>
+
+<br>
 
 ```js
 const videoEl = document.getElementById("webcam");
@@ -58,29 +115,45 @@ const statusEl = document.getElementById("status");
 let model = null;
 ```
 
-**What this does:** `document.getElementById(...)` finds the HTML elements from Step 2 so your
-code can read from or write to them later — `videoEl` is how you'll attach the camera stream,
-`barsContainer` is where you'll insert bar rows, `statusEl` is what you'll update with progress
-messages. `model` starts as `null` because nothing's loaded yet; you'll assign the real model to
-it in Step 5.
+<div style="background:#1f1f29;border-left:4px solid #c9b9ee;padding:12px 16px;border-radius:6px;margin-top:8px;">
+<strong style="color:#c9b9ee;">💡 What this does:</strong>
+<span style="color:#edebf6;"><code>document.getElementById(...)</code> finds the HTML elements
+from Step 2 so your code can read from or write to them later - <code>videoEl</code> is how you'll
+attach the camera stream, <code>barsContainer</code> is where you'll insert bar rows,
+<code>statusEl</code> is what you'll update with progress messages. <code>model</code> starts as
+<code>null</code> because nothing's loaded yet; you'll assign the real model to it in Step 6.</span>
+</div>
 
----
+</details>
 
-## Step 4 — Point at your model files
+<br>
+
+<details id="step-4">
+<summary><strong style="color:#c9b9ee;font-size:1.05em;">🟣 Step 4 - Point at your model files</strong></summary>
+
+<br>
 
 ```js
 const MODEL_URL = "./model/model.json";
 const METADATA_URL = "./model/metadata.json";
 ```
 
-**What this does:** these are just the file paths to the model you exported from Teachable
-Machine. `model.json` describes the network's structure and where to find its weights;
-`metadata.json` holds the class names (`Rock`, `Paper`, ...) in the order you trained them. Both
-get passed to `tmImage.load` in Step 5.
+<div style="background:#1f1f29;border-left:4px solid #c9b9ee;padding:12px 16px;border-radius:6px;margin-top:8px;">
+<strong style="color:#c9b9ee;">💡 What this does:</strong>
+<span style="color:#edebf6;">these are just the file paths to the model you exported from
+Teachable Machine. <code>model.json</code> describes the network's structure and where to find its
+weights; <code>metadata.json</code> holds the class names (<code>Rock</code>, <code>Paper</code>,
+...) in the order you trained them. Both get passed to <code>tmImage.load</code> in Step 6.</span>
+</div>
 
----
+</details>
 
-## Step 5 — Start the webcam
+<br>
+
+<details id="step-5">
+<summary><strong style="color:#f1b4c4;font-size:1.05em;">🩷 Step 5 - Start the webcam</strong></summary>
+
+<br>
 
 ```js
 async function startWebcam() {
@@ -96,16 +169,26 @@ async function startWebcam() {
 }
 ```
 
-**What this does:** `navigator.mediaDevices.getUserMedia(...)` is the browser API that asks the
-user for camera permission and hands back a live video `stream` if they allow it.
-`facingMode: "user"` requests the front-facing camera. Setting `videoEl.srcObject = stream` is what
-actually connects that stream to the `<video>` element from Step 2. The `Promise` that waits for
-`onloadedmetadata` makes sure the video has real dimensions before you call `.play()` — skipping
-that can cause `.play()` to fail silently in some browsers.
+<div style="background:#1f1f29;border-left:4px solid #f1b4c4;padding:12px 16px;border-radius:6px;margin-top:8px;">
+<strong style="color:#f1b4c4;">💡 What this does:</strong>
+<span style="color:#edebf6;"><code>navigator.mediaDevices.getUserMedia(...)</code> is the browser
+API that asks the user for camera permission and hands back a live video <code>stream</code> if
+they allow it. <code>facingMode: "user"</code> requests the front-facing camera. Setting
+<code>videoEl.srcObject = stream</code> is what actually connects that stream to the
+<code>&lt;video&gt;</code> element from Step 2. The <code>Promise</code> that waits for
+<code>onloadedmetadata</code> makes sure the video has real dimensions before you call
+<code>.play()</code> - skipping that can cause <code>.play()</code> to fail silently in some
+browsers.</span>
+</div>
 
----
+</details>
 
-## Step 6 — Load the model
+<br>
+
+<details id="step-6">
+<summary><strong style="color:#f1b4c4;font-size:1.05em;">🩷 Step 6 - Load the model</strong></summary>
+
+<br>
 
 ```js
 async function loadModel() {
@@ -113,15 +196,23 @@ async function loadModel() {
 }
 ```
 
-**What this does:** `tmImage.load(modelURL, metadataURL)` is provided by the library from Step 1.
-It fetches your model files and builds a ready-to-use model object, which you store in the `model`
-variable declared in Step 3 so the rest of your code can use it. This line is `async` and uses
-`await` because loading model files takes time — your code pauses here until it's done rather than
-moving on with an unfinished model.
+<div style="background:#1f1f29;border-left:4px solid #f1b4c4;padding:12px 16px;border-radius:6px;margin-top:8px;">
+<strong style="color:#f1b4c4;">💡 What this does:</strong>
+<span style="color:#edebf6;"><code>tmImage.load(modelURL, metadataURL)</code> is provided by the
+library from Step 1. It fetches your model files and builds a ready-to-use model object, which you
+store in the <code>model</code> variable declared in Step 3 so the rest of your code can use it.
+This line is <code>async</code> and uses <code>await</code> because loading model files takes time
+- your code pauses here until it's done rather than moving on with an unfinished model.</span>
+</div>
 
----
+</details>
 
-## Step 7 — Turn predictions into bar rows
+<br>
+
+<details id="step-7">
+<summary><strong style="color:#a7e3c9;font-size:1.05em;">🟢 Step 7 - Turn predictions into bar rows</strong></summary>
+
+<br>
 
 ```js
 function renderConfidenceBars(predictions) {
@@ -149,17 +240,25 @@ function renderConfidenceBars(predictions) {
 }
 ```
 
-**What this does:** this function takes the array of predictions your model produces (one entry
-per class, each with a `className` and a `probability` from 0–1) and turns it into visible bars.
-The first block only runs once — the very first time it notices `barsContainer` is empty — and
-builds one `.bar-row` per class, tagging each with `data-class-name` so it can be found again
-later. The second block runs every time and just updates the width and text of the existing bars,
-rather than rebuilding them — this keeps the bars smoothly resizing instead of flickering as they
-get recreated 30+ times a second.
+<div style="background:#1f1f29;border-left:4px solid #a7e3c9;padding:12px 16px;border-radius:6px;margin-top:8px;">
+<strong style="color:#a7e3c9;">💡 What this does:</strong>
+<span style="color:#edebf6;">this function takes the array of predictions your model produces (one
+entry per class, each with a <code>className</code> and a <code>probability</code> from 0-1) and
+turns it into visible bars. The first block only runs once - the very first time it notices
+<code>barsContainer</code> is empty - and builds one <code>.bar-row</code> per class, tagging each
+with <code>data-class-name</code> so it can be found again later. The second block runs every time
+and just updates the width and text of the existing bars, rather than rebuilding them - this keeps
+the bars smoothly resizing instead of flickering as they get recreated 30+ times a second.</span>
+</div>
 
----
+</details>
 
-## Step 8 — Classify the webcam feed, continuously
+<br>
+
+<details id="step-8">
+<summary><strong style="color:#c9b9ee;font-size:1.05em;">🟣 Step 8 - Classify the webcam feed, continuously</strong></summary>
+
+<br>
 
 ```js
 async function predictionLoop() {
@@ -169,17 +268,26 @@ async function predictionLoop() {
 }
 ```
 
-**What this does:** `model.predict(videoEl)` runs your model on the *current* video frame and
-returns an array like `[{ className: "Rock", probability: 0.83 }, ...]` — one entry per class,
-sorted however the model returns them. That array gets handed to `renderConfidenceBars` from Step
-7. The last line, `requestAnimationFrame(predictionLoop)`, schedules this same function to run
-again right before the browser's next repaint — which is what makes this a continuous *loop*
-rather than a single one-off check. Each call to `predictionLoop` re-triggers the next one, so
-once it starts, it keeps going on its own.
+<div style="background:#1f1f29;border-left:4px solid #c9b9ee;padding:12px 16px;border-radius:6px;margin-top:8px;">
+<strong style="color:#c9b9ee;">💡 What this does:</strong>
+<span style="color:#edebf6;"><code>model.predict(videoEl)</code> runs your model on the
+<em>current</em> video frame and returns an array like
+<code>[{ className: "Rock", probability: 0.83 }, ...]</code> - one entry per class, sorted however
+the model returns them. That array gets handed to <code>renderConfidenceBars</code> from Step 7.
+The last line, <code>requestAnimationFrame(predictionLoop)</code>, schedules this same function to
+run again right before the browser's next repaint - which is what makes this a continuous
+<strong>loop</strong> rather than a single one-off check. Each call to <code>predictionLoop</code>
+re-triggers the next one, so once it starts, it keeps going on its own.</span>
+</div>
 
----
+</details>
 
-## Step 9 — Tie it together and start everything
+<br>
+
+<details id="step-9">
+<summary><strong style="color:#f1b4c4;font-size:1.05em;">🩷 Step 9 - Tie it together and start everything</strong></summary>
+
+<br>
 
 ```js
 async function init() {
@@ -194,44 +302,67 @@ async function init() {
     predictionLoop();
   } catch (err) {
     console.error(err);
-    statusEl.textContent = "Something's not wired up yet — check the console.";
+    statusEl.textContent = "Something's not wired up yet - check the console.";
   }
 }
 
 init();
 ```
 
-**What this does:** `init()` runs the two setup steps in order — model first, then webcam — and
-updates `#status` so you always know what stage you're at. It's wrapped in `try/catch` so that if
-either step fails (camera permission denied, wrong file path, etc.) you get a clear message
-instead of a silent broken page. `predictionLoop()` is called once at the end, without `await`,
-because — as covered in Step 8 — it keeps rescheduling itself from here on; nothing after it needs
-to wait for it to "finish," since it never does. The final line, `init();`, is what actually kicks
-off all of this the moment the page loads.
+<div style="background:#1f1f29;border-left:4px solid #f1b4c4;padding:12px 16px;border-radius:6px;margin-top:8px;">
+<strong style="color:#f1b4c4;">💡 What this does:</strong>
+<span style="color:#edebf6;"><code>init()</code> runs the two setup steps in order - model first,
+then webcam - and updates <code>#status</code> so you always know what stage you're at. It's
+wrapped in <code>try/catch</code> so that if either step fails (camera permission denied, wrong
+file path, etc.) you get a clear message instead of a silent broken page.
+<code>predictionLoop()</code> is called once at the end, without <code>await</code>, because - as
+covered in Step 8 - it keeps rescheduling itself from here on; nothing after it needs to wait for
+it to "finish," since it never does. The final line, <code>init();</code>, is what actually kicks
+off all of this the moment the page loads.</span>
+</div>
 
----
+</details>
 
-## Definition of done
+<br>
+
+## <a id="definition-of-done"></a>✅ Definition of done
+
+<div style="background:#1f1f29;border-left:4px solid #a7e3c9;padding:16px 20px;border-radius:8px;">
+<span style="color:#edebf6;">
 
 Open the page and test one class at a time:
 
-- [ ] Hold up **Rock** — its bar reaches at least 70% and stays there for a couple of seconds
-- [ ] Hold up **Paper** — same test
-- [ ] Hold up **Scissors** — same test
-- [ ] Move your hand out of frame entirely — **Nothing** becomes the highest bar
+- [ ] Hold up **<span style="color:#a7e3c9;">Rock</span>** - its bar reaches at least 70% and stays there for a couple of seconds
+- [ ] Hold up **<span style="color:#edebf6;">Paper</span>** - same test
+- [ ] Hold up **<span style="color:#f1b4c4;">Scissors</span>** - same test
+- [ ] Move your hand out of frame entirely - **<span style="color:#c9b9ee;">Nothing</span>** becomes the highest bar
 
-If a class won't cooperate, that's a training-data problem, not a code problem — add more (and
-more varied) samples for that class in Teachable Machine, retrain, re-export, and try again.
+</span>
+</div>
 
-**Submit:** a 10–20 second screen recording showing all four checks passing in order.
+<br>
 
----
+> ⚠️ If a class won't cooperate, that's a **training-data problem, not a code problem** - add more
+> (and more varied) samples for that class in Teachable Machine, retrain, re-export, and try again.
 
-## Full solution
+<br>
+
+<div style="background:#262632;border:1px solid #33333f;padding:14px 18px;border-radius:8px;">
+<strong style="color:#a7e3c9;">📹 Submit:</strong>
+<span style="color:#edebf6;">a 10-20 second screen recording showing all four checks passing in
+order.</span>
+</div>
+
+<br>
+
+## <a id="full-solution"></a>📦 Full solution
 
 If you get stuck, here's the complete, working version of all three files.
 
-### `index.html`
+<details>
+<summary><strong style="color:#a7e3c9;">📄 index.html</strong></summary>
+
+<br>
 
 ```html
 <!doctype html>
@@ -239,7 +370,7 @@ If you get stuck, here's the complete, working version of all three files.
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Part 1 — Confidence Monitor</title>
+    <title>Part 1 - Confidence Monitor</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
@@ -275,7 +406,14 @@ If you get stuck, here's the complete, working version of all three files.
 </html>
 ```
 
-### `style.css`
+</details>
+
+<br>
+
+<details>
+<summary><strong style="color:#c9b9ee;">🎨 style.css</strong></summary>
+
+<br>
 
 ```css
 :root {
@@ -398,7 +536,14 @@ h1 {
 }
 ```
 
-### `script.js`
+</details>
+
+<br>
+
+<details>
+<summary><strong style="color:#f1b4c4;">⚙️ script.js</strong></summary>
+
+<br>
 
 ```js
 const MODEL_URL = "./model/model.json";
@@ -468,9 +613,17 @@ async function init() {
     predictionLoop();
   } catch (err) {
     console.error(err);
-    statusEl.textContent = "Something's not wired up yet — check the console.";
+    statusEl.textContent = "Something's not wired up yet - check the console.";
   }
 }
 
 init();
 ```
+
+</details>
+
+<br>
+
+<div align="center">
+<sub><span style="color:#9c99ae;">Built with ✊ ✋ ✌️ and a webcam.</span></sub>
+</div>

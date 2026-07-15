@@ -1,5 +1,5 @@
 // ============================================================
-// PART 1 — Confidence Monitor
+// PART 1 - Confidence Monitor
 //
 // Your job in this file: fill in the two TODO sections below so
 // the page loads your trained model and shows a live confidence
@@ -18,7 +18,7 @@
 //
 // (If you'd rather host your model instead of using local files,
 // you can point these at a URL that ends in model.json /
-// metadata.json — either way works with tmImage.load below.)
+// metadata.json - either way works with tmImage.load below.)
 const MODEL_URL = "./model/model.json";
 const METADATA_URL = "./model/metadata.json";
 
@@ -28,7 +28,7 @@ const statusEl = document.getElementById("status");
 
 let model = null;
 
-// ---- Webcam setup (given — no need to change this) -----------
+// ---- Webcam setup (given - no need to change this) -----------
 
 async function startWebcam() {
   const stream = await navigator.mediaDevices.getUserMedia({
@@ -53,7 +53,7 @@ async function startWebcam() {
 async function loadModel() {
   // TODO: replace this with a real call to tmImage.load(...)
   model = await tmImage.load(MODEL_URL, METADATA_URL);
-  // throw new Error("loadModel() is not implemented yet — see the TODO above.");
+  // throw new Error("loadModel() is not implemented yet - see the TODO above.");
 }
 
 // ---- 3. TODO: classify the webcam feed, then render bars -------
@@ -76,7 +76,7 @@ async function predictionLoop() {
   // requestAnimationFrame(predictionLoop);
 }
 
-// ---- Rendering helper (given — call this from predictionLoop) --
+// ---- Rendering helper (given - call this from predictionLoop) --
 
 function renderConfidenceBars(predictions) {
   // Build the bar rows once, then just update widths after that,
@@ -118,7 +118,7 @@ async function init() {
     predictionLoop();
   } catch (err) {
     console.error(err);
-    statusEl.textContent = "Something's not wired up yet — check the console.";
+    statusEl.textContent = "Something's not wired up yet - check the console.";
   }
 }
 

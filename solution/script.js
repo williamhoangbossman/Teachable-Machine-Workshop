@@ -1,5 +1,5 @@
 // ============================================================
-// PART 1 — Confidence Monitor (solution)
+// PART 1 - Confidence Monitor (solution)
 // ============================================================
 
 const MODEL_URL = "../model/model.json";
@@ -79,7 +79,7 @@ async function init() {
     predictionLoop();
   } catch (err) {
     console.error(err);
-    statusEl.textContent = "Something's not wired up yet — check the console.";
+    statusEl.textContent = "Something's not wired up yet - check the console.";
   }
 }
 
