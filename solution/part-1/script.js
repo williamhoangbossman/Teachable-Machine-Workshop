@@ -2,8 +2,8 @@
 // PART 1 - Confidence Monitor (solution)
 // ============================================================
 
-const MODEL_URL = "../model/model.json";
-const METADATA_URL = "../model/metadata.json";
+const MODEL_URL = "../../model/model.json";
+const METADATA_URL = "../../model/metadata.json";
 
 const videoEl = document.getElementById("webcam");
 const barsContainer = document.getElementById("confidence-bars");
