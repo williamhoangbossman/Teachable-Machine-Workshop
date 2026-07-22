@@ -1,1 +1,4 @@
 node_modules
+model/metadata.json
+model/model.json
+model/weights.bin
