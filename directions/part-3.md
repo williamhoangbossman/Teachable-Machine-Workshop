@@ -885,11 +885,11 @@ Appears only on the normal path, right after the result text and class are set -
 
 <p style="color:#facc15;"><strong>⚠️ Quick self-check</strong> before calling this project done - not a graded submission, just a sanity check.</p>
 
-- [ ] Click Play Round - the countdown overlay appears over the video, counts `3, 2, 1, Shoot!`, then disappears
-- [ ] Hold your move up for `Shoot!`, not for `3` - confirm the snapshot really is taken at the end of the countdown, not the start
-- [ ] Play several rounds and confirm the You / Draws / CPU numbers each go up by exactly one, matching that round's actual result
-- [ ] Refresh the page and confirm the scoreboard resets to `0 / 0 / 0` - this is expected, not a bug
-- [ ] Watch `#result` on back-to-back rounds with the *same* outcome twice in a row (e.g. two wins) - the pop animation should replay both times, not just the first
+- Click Play Round - the countdown overlay appears over the video, counts `3, 2, 1, Shoot!`, then disappears
+- Hold your move up for `Shoot!`, not for `3` - confirm the snapshot really is taken at the end of the countdown, not the start
+- Play several rounds and confirm the You / Draws / CPU numbers each go up by exactly one, matching that round's actual result
+- Refresh the page and confirm the scoreboard resets to `0 / 0 / 0` - this is expected, not a bug
+- Watch `#result` on back-to-back rounds with the *same* outcome twice in a row (e.g. two wins) - the pop animation should replay both times, not just the first
 
 If the pop animation only plays on the first round and never again, double-check `animateResult()` - specifically the `void resultEl.offsetWidth;` line from Step 38, since that's the line responsible for letting the animation restart on a repeat outcome.
 

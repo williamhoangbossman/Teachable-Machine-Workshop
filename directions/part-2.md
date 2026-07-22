@@ -691,10 +691,10 @@ Unlocks the button again, whichever path got here.
 
 <p style="color:#facc15;"><strong>⚠️ Quick self-check</strong> before treating this part as done — not a graded submission, just a sanity check.</p>
 
-- [ ] Play several rounds throwing **Rock** — you should see roughly a third wins, a third losses, a third draws over enough tries (the CPU is random, so any single round can go either way)
-- [ ] Deliberately throw the move that **beats** whatever you expect the CPU to play, and confirm the result says you won
-- [ ] Deliberately throw the move that **loses** to a move, and confirm the result says CPU won
-- [ ] Hold up nothing (empty frame) and click Play — you should get the "couldn't see a clear move" message, not a crash and not a random win/loss
+- Play several rounds throwing **Rock** — you should see roughly a third wins, a third losses, a third draws over enough tries (the CPU is random, so any single round can go either way)
+- Deliberately throw the move that **beats** whatever you expect the CPU to play, and confirm the result says you won
+- Deliberately throw the move that **loses** to a move, and confirm the result says CPU won
+- Hold up nothing (empty frame) and click Play — you should get the "couldn't see a clear move" message, not a crash and not a random win/loss
 
 If any matchup consistently gives the wrong result, double-check the `beats` object in
 `decideWinner` — it's easy to swap two lines and end up with backwards rules that only show up on

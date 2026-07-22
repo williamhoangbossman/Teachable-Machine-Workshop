@@ -2,7 +2,7 @@
 
 <p style="color:#6ee7b7;"><strong>Goal:</strong> Train your own Teachable Machine model, then build a webcam page that shows a live confidence bar for four classes: Rock, Paper, Scissors, and Nothing.</p>
 
-<p style="color:#facc15;"><strong>⚠️ Before you begin:</strong> keep your Teachable Machine tab open in the browser for this entire project. If you close it, reopening the project link later gives you an empty or read-only copy - not something you can add more samples to or retrain. Leaving the tab open means you can always go back and fine-tune your model later.</p>
+<p style="color:#facc15;"><strong>⚠️ Before you begin:</strong> keep your Teachable Machine tab open in the browser for this entire project. If you close it, reopening the project link later gives you an empty or read-only copy - not something you can add more samples to or retrain. Leaving the tab open means you can always go back and fine-tune your model later. At the end of the day, you can also upload your model to Google Drive and come back to it later.</p>
 
 <details open>
 <summary><strong>🗺️ Big Picture</strong></summary>
@@ -24,7 +24,7 @@ The project has three main parts:
 
 Go to [teachablemachine.withgoogle.com/train/image](https://teachablemachine.withgoogle.com/train/image) and choose **Image Project**, then **Standard image model**.
 
-![Screenshot: Teachable Machine homepage with "Get Started" button, then the project-type picker showing Image/Pose/Audio project options with Image Project highlighted](images/step1-new-project.png)
+![Screenshot: Teachable Machine homepage with "Get Started" button, then the project-type picker showing Image/Pose/Audio project options with Image Project highlighted](images/part-1/new-project.png)
 
 </details>
 
@@ -40,7 +40,7 @@ Scissors
 Nothing
 ```
 
-![Screenshot: Teachable Machine training interface with four class panels labeled Rock, Paper, Scissors, and Nothing, each currently empty](images/step2-four-classes.png)
+![Screenshot: Teachable Machine training interface with four class panels labeled Rock, Paper, Scissors, and Nothing, each currently empty](images/part-1/four-classes.png)
 
 <p style="color:#fbbf24;"><strong>💡 Here's why we need a "Nothing" class:</strong> a classifier's confidence scores always add up to 100% across whatever classes it has. If you only train Rock/Paper/Scissors, the model is forced to call <em>every single frame</em> one of those three, even if it's empty, because there's no fourth option for it to fall back on. Adding Nothing gives it somewhere honest to put its confidence when you aren't throwing a RPS move.</p>
 
@@ -49,11 +49,9 @@ Nothing
 <details>
 <summary><strong>📸 <span style="color:#34d399;">Step 3: Record Samples For Rock, Paper, And Scissors</span></strong></summary>
 
-Under each class panel, click the webcam icon, then hold the "Hold to Record" button to capture a burst of frames while you hold that gesture in front of your camera.
+Under each class panel, click the webcam icon, then hold the **"Hold to Record"** button to capture a burst of frames while you hold that gesture in front of your camera.
 
-![Screenshot: one class panel's webcam capture view mid-recording, with a strip of newly captured thumbnail frames appearing below it](images/step3-recording-samples.png)
-
-Aim for at least 50 samples per class. More importantly than the count, vary *how* you show the gesture between recording bursts:
+Aim for at least 100-200 samples per class. More importantly than the count, vary *how* you show the gesture between recording bursts:
 
 - **Distance** - close to the camera, then further back
 - **Angle** - hand facing the camera straight-on, then rotated or tilted
@@ -79,8 +77,6 @@ Repeat the same process for the `Nothing` class - but instead of a gesture, capt
 
 Once all four classes have samples, click **Train Model** in the middle column.
 
-![Screenshot: Teachable Machine's Training panel with a progress bar mid-training, showing epoch progress](images/step5-training.png)
-
 Training runs entirely in your browser, but don't leave the tab! It usually takes anywhere from 30 seconds to a couple of minutes. Leave the **Advanced** settings (epochs, batch size, learning rate) at their defaults for now.
 
 </details>
@@ -90,7 +86,7 @@ Training runs entirely in your browser, but don't leave the tab! It usually take
 
 Once training finishes, the **Preview** panel on the right turns on your webcam and shows live confidence bars right inside Teachable Machine. Here's where you can test and refine your model before exporting!
 
-![Screenshot: the Preview panel showing a live webcam feed next to four confidence bars for Rock, Paper, Scissors, and Nothing](images/step6-preview-panel.png)
+![Screenshot: the Preview panel showing a live webcam feed next to four confidence bars for Rock, Paper, Scissors, and Nothing](images/part-1/preview.png)
 
 <p style="color:#93c5fd;"><strong>Note:</strong> this step isolates one variable at a time. If a class doesn't work here, the problem is your training data (back to Step 3 or 4) because no code exists yet. If it works here but is wonky later once you've built your own page, you'll know the problem is probably in your JavaScript instead.</p>
 
@@ -101,7 +97,7 @@ Once training finishes, the **Preview** panel on the right turns on your webcam 
 
 Click **Export Model**, switch to the **Tensorflow.js** tab, choose **Download** (not "Upload (shareable link)" - this project loads the model from your own files, not a URL), then click **Download my model**.
 
-![Screenshot: the Export Model dialog with the Tensorflow.js tab selected and the "Download" radio option and "Download my model" button highlighted](images/step7-export.png)
+![Screenshot: the Export Model dialog with the Tensorflow.js tab selected and the "Download" radio option and "Download my model" button highlighted](images/part-1/export.png)
 
 This downloads a `.zip` file. Unzip it (on Mac, you can click on it to open it in Finder) - you'll get `model.json`, `metadata.json`, and one or more weight files (`weights.bin`, or `weights.bin` split into numbered shards - either is fine).
 
@@ -803,14 +799,9 @@ So the cycle is saying:
 <details open>
 <summary><strong>⚠️ <span style="color:#facc15;">Check That Your Model Is Classifying Correctly</span></strong></summary>
 
-<p style="color:#facc15;"><strong>⚠️ This isn't a graded submission</strong> - it's just a quick check that you're actually ready to move on to Part 2. Open <code>index.html</code> in your browser (double-click the file, or use a tool like VS Code's Live Server extension) and test one class at a time.</p>
+Hold up each sign to the camera, Rock, Paper and Scissors, and make sure the sign is detected at at least 70% consistently.
 
-- [ ] Hold up **Rock** - its bar reaches at least 70% and stays there for a couple of seconds
-- [ ] Hold up **Paper** - same test
-- [ ] Hold up **Scissors** - same test
-- [ ] Move your hand out of frame entirely - **Nothing** becomes the highest bar
-
-If a class won't cooperate, that's a training-data problem, not a code problem - go back to Steps 3-4 (your Teachable Machine tab is still open, right?), add more (and more varied) samples, retrain, re-export, and swap the new files into `model/`.
+If a class won't cooperate, that's likely an issue with your training-data. Go back to Steps 3-4 (your Teachable Machine tab is still open, right?), add more (and more varied) samples, retrain, re-export, and swap the new files into `model/`.
 
 If you see a blank page or nothing loads, check that `index.html` loads the scripts in this order:
 
