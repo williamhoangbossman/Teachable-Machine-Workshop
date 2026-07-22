@@ -52,8 +52,7 @@ async function startWebcam() {
 
 async function loadModel() {
   // TODO: replace this with a real call to tmImage.load(...)
-  model = await tmImage.load(MODEL_URL, METADATA_URL);
-  // throw new Error("loadModel() is not implemented yet - see the TODO above.");
+  throw new Error("loadModel() is not implemented yet - see the TODO above.");
 }
 
 // ---- 3. TODO: classify the webcam feed, then render bars -------
@@ -70,10 +69,7 @@ async function loadModel() {
 
 async function predictionLoop() {
   // TODO: replace this with a real prediction + render + loop
-  //
-  // const predictions = await model.predict(videoEl);
-  // renderConfidenceBars(predictions);
-  // requestAnimationFrame(predictionLoop);
+  throw new Error("predictionLoop() is not implemented yet - see the TODO above.");
 }
 
 // ---- Rendering helper (given - call this from predictionLoop) --

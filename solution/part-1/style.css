@@ -97,8 +97,8 @@ h1 {
 }
 
 .bar-fill {
+  height: 100%;
   display: block;
-  height: 8px;
   border-radius: 999px;
   background: var(--mint);
   width: 0%;

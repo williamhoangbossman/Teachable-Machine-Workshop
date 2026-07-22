@@ -337,6 +337,7 @@ Now the CSS:
 
 .bar-fill {
   height: 100%;
+  display: block;
   border-radius: 999px;
   background: var(--mint);
   width: 0%;
@@ -654,6 +655,7 @@ body {
 
 .bar-fill {
   height: 100%;
+  display: block;
   border-radius: 999px;
   background: var(--mint);
   width: 0%;
