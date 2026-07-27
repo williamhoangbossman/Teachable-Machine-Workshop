@@ -1,9 +1,0 @@
-Put your exported Teachable Machine files here:
-
-  model.json
-  metadata.json
-  weights.bin
-
-(Export Model -> Tensorflow.js -> Download my model, in Teachable Machine.)
-This file is just a placeholder so the empty folder exists - delete it once your
-three model files are in here.
