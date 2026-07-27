@@ -66,7 +66,7 @@ Aim for at least 100-200 samples per class. More importantly than the count, var
 
 Repeat the same process for the `Nothing` class - but instead of a gesture, capture frames of whatever the camera sees when you **aren't** making a move.
 
-![Screenshot: the Nothing class panel with thumbnail samples](images/step4-nothing-samples.png)
+<!-- ![Screenshot: the Nothing class panel with thumbnail samples](images/step4-nothing-samples.png) -->
 
 <p style="color:#f87171;"><strong>🚨 Common mistake:</strong> if every "Nothing" sample looks like one thing in one specific lighting condition, the class only works in that exact condition. Don't forget to give it the same distance/angle/lighting variety as Step 3.</p>
 
